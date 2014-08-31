@@ -1,0 +1,18 @@
+package textbuddy.ui;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
+import org.junit.Test;
+
+public class TestTaskManager {
+
+	@Test
+	public void testTaskManager() {
+		TaskManager textBuddy = new TaskManager();
+		assertTrue("Task is not instance of ArrayList", textBuddy.tasks instanceof ArrayList);
+		assertEquals(0, textBuddy.getTasks().size());
+	}
+
+}

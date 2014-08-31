@@ -1,0 +1,54 @@
+package textbuddy.ui;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
+import org.junit.Test;
+
+public class TestTaskManager {
+
+	private TaskManager textBuddy;
+	private String testDescription;
+	private String anothertestDescription;
+	private Task testTask;
+	private Task anotherTestTask;
+
+	public void setup()
+	{
+		textBuddy = new TaskManager();
+		testDescription = new String("test description");
+		anothertestDescription = new String("another test description");
+		testTask = new Task(testDescription);
+		anotherTestTask = new Task(anothertestDescription);
+	}
+	
+	@Test
+	public void testTaskManager() {
+		TaskManager textBuddy = new TaskManager();
+		assertTrue("Task is not instance of ArrayList", textBuddy.tasks instanceof ArrayList);
+		assertEquals(0, textBuddy.getTasks().size());
+	}
+	
+	@Test
+	public void testRemoveTasks() {
+		setup();
+		
+		textBuddy.addTask(testTask);
+		assertEquals(1, textBuddy.getTasks().size());
+		assertEquals(0, textBuddy.getTasks().indexOf(testTask));
+		
+		textBuddy.addTask(anotherTestTask);
+		assertEquals(2, textBuddy.getTasks().size());
+		assertEquals(0, textBuddy.getTasks().indexOf(testTask));
+		assertEquals(1, textBuddy.getTasks().indexOf(anotherTestTask));
+		
+		int taskUserIndexToRemove = 1;
+		textBuddy.removeTask(taskUserIndexToRemove);
+		assertEquals(1, textBuddy.getTasks().size());		
+		assertEquals(0, textBuddy.getTasks().indexOf(anotherTestTask));
+	}
+	
+	
+
+}

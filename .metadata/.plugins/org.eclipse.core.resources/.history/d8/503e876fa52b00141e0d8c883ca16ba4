@@ -1,0 +1,14 @@
+package textbuddy.ui;
+
+public class Task {
+	String description;
+
+	public Task() {
+		this.description = "unknown task description";
+	}
+
+	public String getDescription() {
+		
+	}
+	
+}

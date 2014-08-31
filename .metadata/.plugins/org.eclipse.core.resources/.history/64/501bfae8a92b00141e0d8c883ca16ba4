@@ -1,0 +1,9 @@
+package textbuddy.ui;
+
+import java.util.ArrayList;
+
+public class TaskManager {
+
+	public ArrayList<Task> tasks;
+
+}

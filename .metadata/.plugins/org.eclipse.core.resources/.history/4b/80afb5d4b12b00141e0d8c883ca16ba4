@@ -1,0 +1,27 @@
+package textbuddy.ui;
+
+import java.util.ArrayList;
+
+public class TaskManager {
+	ArrayList<Task> tasks;
+
+	public TaskManager() {
+		tasks = new ArrayList<Task>();
+	}	
+	
+	public ArrayList<Task> getTasks() {
+		return tasks;
+	}
+
+	public void addTask(Task taskToAdd) {
+		tasks.add(taskToAdd);
+	}
+
+	public void removeTask(int taskUserIndexToRemove) {
+		int taskActualArrayIndexToRemove = taskUserIndexToRemove - 1;
+		tasks.remove(taskActualArrayIndexToRemove);
+	}
+	
+	
+
+}

@@ -1,0 +1,15 @@
+package textbuddy.ui;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class TaskTest {
+
+	@Test
+	public void testTask() {
+		Task task = new Task();
+		assertEquals(null, task.getDescription());
+	}
+
+}
