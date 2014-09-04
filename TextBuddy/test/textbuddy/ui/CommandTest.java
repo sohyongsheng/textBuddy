@@ -4,19 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CommandTest {
-	
-	public static String[] splitCommandLine(String inputCommandLine) {
-		return inputCommandLine.split(" ", 2);
-	}
-	
+public class CommandTest {	
 	@Test
 	public void testsplitCommandLine() {
 		String addAction = "add";
 		String testDescription = "test description";
 		String addCommandString = addAction + " " + testDescription;
 		
-		String[] testInputCommand = splitCommandLine(addCommandString);
+		String[] testInputCommand = Command.splitCommandLine(addCommandString);
 		assertEquals("size of add command is not 2", 2, testInputCommand.length);
 		assertTrue("first element of add command array is not 'add'", testInputCommand[0].equals(addAction));
 		assertTrue("second element of add command array is not 'test description'", testInputCommand[1].equals(testDescription));

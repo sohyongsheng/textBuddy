@@ -13,11 +13,11 @@ public class Command {
 		this.commandAction = inputCommandAction;
 	}
 	
-	public String getCommandParameters() {
+	public String getCommandParameter() {
 		return commandParameter;
 	}
 	
-	public void setCommandParameters(String inputCommandParameter) {
+	public void setCommandParameter(String inputCommandParameter) {
 		
 		commandParameter = inputCommandParameter;		
 	}
@@ -30,7 +30,7 @@ public class Command {
 		String[] inputCommand = splitCommandLine(inputCommandString);
 		this.setCommandAction(inputCommand[0]);
 		if (inputCommand.length > 1) {
-			this.setCommandParameters(inputCommand[1]);
+			this.setCommandParameter(inputCommand[1]);
 		}
 	}
 
