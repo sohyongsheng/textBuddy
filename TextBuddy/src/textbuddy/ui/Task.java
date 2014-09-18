@@ -1,17 +1,17 @@
 package textbuddy.ui;
 
 public class Task {
-	String description;
+    String description;
 
-	public Task(String inputDescription) {
-		this.description = inputDescription;
-	}
+    public Task(String inputDescription) {
+        this.description = inputDescription;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String inputDescription) {
-		this.description = inputDescription;
-	}	
+    public void setDescription(String inputDescription) {
+        this.description = inputDescription;
+    }
 }
