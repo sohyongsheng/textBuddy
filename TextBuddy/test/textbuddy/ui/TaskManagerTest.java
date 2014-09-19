@@ -9,12 +9,12 @@ import org.junit.Test;
 
 public class TaskManagerTest {
 	private TaskManager textBuddy;
-	
+
 	private String testDescription;
 	private String anotherTestDescription;
 	private String taskDescriptionStartingWithAlphabetZ;
 	private String taskDescriptionStartingWithCapitalAlphabetY;
-	
+
 	private Task testTask;
 	private Task anotherTestTask;
 	private Task zTask;
@@ -42,7 +42,7 @@ public class TaskManagerTest {
 		textBuddy.addTask(testTask);
 		textBuddy.addTask(anotherTestTask);
 	}
-	
+
 	@Before
 	public void addMoreItemsToTestSort() {
 		textBuddy.addTask(zTask);
@@ -93,20 +93,56 @@ public class TaskManagerTest {
 		setup();
 		addItems();
 		addMoreItemsToTestSort();
-		
-		assertEquals("initial number of tasks is not 4", 4, textBuddy.getTasks().size());
-		assertEquals("initial order of tasks are not correct", 1, textBuddy.getTasks().indexOf(anotherTestTask));
-		assertEquals("initial order of tasks are not correct", 0, textBuddy.getTasks().indexOf(testTask));
-		assertEquals("initial order of tasks are not correct", 3, textBuddy.getTasks().indexOf(capitalYTask));
-		assertEquals("initial order of tasks are not correct", 2, textBuddy.getTasks().indexOf(zTask));
-		
+
+		assertEquals("initial number of tasks is not 4", 4, textBuddy
+				.getTasks().size());
+		assertEquals("initial order of tasks are not correct", 1, textBuddy
+				.getTasks().indexOf(anotherTestTask));
+		assertEquals("initial order of tasks are not correct", 0, textBuddy
+				.getTasks().indexOf(testTask));
+		assertEquals("initial order of tasks are not correct", 3, textBuddy
+				.getTasks().indexOf(capitalYTask));
+		assertEquals("initial order of tasks are not correct", 2, textBuddy
+				.getTasks().indexOf(zTask));
+
 		textBuddy.sort();
+
+		assertEquals("number of tasks do not remain at 4 after sorting", 4,
+				textBuddy.getTasks().size());
+		assertEquals("order of sorted tasks are not correct", 0, textBuddy
+				.getTasks().indexOf(anotherTestTask));
+		assertEquals("order of sorted tasks are not correct", 1, textBuddy
+				.getTasks().indexOf(testTask));
+		assertEquals("order of sorted tasks are not correct", 2, textBuddy
+				.getTasks().indexOf(capitalYTask));
+		assertEquals("order of sorted tasks are not correct", 3, textBuddy
+				.getTasks().indexOf(zTask));
+	}
+
+	@Test
+	public void testSearch() {
+		setup();
+		addItems();
+
+		String searchString = "another";
+		ArrayList<Task> searchResults = textBuddy.search(searchString);
+		assertEquals("size of searchResults arraylist is not 1", 1, searchResults.size());
+		assertEquals(
+				"search string 'another' does not return index of testTask, "
+						+ "which contains 'another' in its task description",
+				anotherTestDescription, searchResults.get(0).getDescription());
 		
-		assertEquals("number of tasks do not remain at 4 after sorting", 4, textBuddy.getTasks().size());
-		assertEquals("order of sorted tasks are not correct", 0, textBuddy.getTasks().indexOf(anotherTestTask));
-		assertEquals("order of sorted tasks are not correct", 1, textBuddy.getTasks().indexOf(testTask));
-		assertEquals("order of sorted tasks are not correct", 2, textBuddy.getTasks().indexOf(capitalYTask));
-		assertEquals("order of sorted tasks are not correct", 3, textBuddy.getTasks().indexOf(zTask));
+		searchString = "test";
+		searchResults = textBuddy.search(searchString);
+		assertEquals("size of searchResults arraylist is not 2", 2, searchResults.size());
+		assertEquals(
+				"search string 'test' does not return index of testTask, "
+						+ "which contains 'test' in its task description",
+						anotherTestDescription, searchResults.get(0).getDescription());		
+		assertEquals(
+				"search string 'test' does not return index of anotherTestTask, "
+						+ "which contains 'test' in its task description",
+						anotherTestDescription, searchResults.get(1).getDescription());	
 	}
 
 	@Test

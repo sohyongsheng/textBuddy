@@ -49,4 +49,11 @@ public class TaskManager {
 		Collections.sort(tasks, Task.descriptionComparator);
 	}
 
+	public ArrayList<Task> search(String searchStringAnother) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+
 }
