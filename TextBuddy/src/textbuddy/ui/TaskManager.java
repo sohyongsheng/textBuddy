@@ -49,9 +49,14 @@ public class TaskManager {
 		Collections.sort(tasks, Task.descriptionComparator);
 	}
 
-	public ArrayList<Task> search(String searchStringAnother) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Task> search(String searchString) {
+		ArrayList<Task> searchResults = new ArrayList<Task>();
+		for (Task aTask : this.getTasks()) {
+			if (aTask.getDescription().contains(searchString)) {
+				searchResults.add(aTask);
+			}
+		}
+		return searchResults;
 	}
 	
 

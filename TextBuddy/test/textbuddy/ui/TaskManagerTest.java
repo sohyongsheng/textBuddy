@@ -138,7 +138,7 @@ public class TaskManagerTest {
 		assertEquals(
 				"search string 'test' does not return index of testTask, "
 						+ "which contains 'test' in its task description",
-						anotherTestDescription, searchResults.get(0).getDescription());		
+						testDescription, searchResults.get(0).getDescription());		
 		assertEquals(
 				"search string 'test' does not return index of anotherTestTask, "
 						+ "which contains 'test' in its task description",
