@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class TaskManager {
+	private static final String MSG_NO_SEARCH_MATCH_FOUND = "No search match found.";
 	private static final String MSG_NO_TASKS = "No tasks at hand.";
 	ArrayList<Task> tasks;
 	private ArrayList<Task> searchResults;
@@ -62,8 +63,17 @@ public class TaskManager {
 	}
 
 	public String searchResultsToString() {
-		// TODO Auto-generated method stub
-		return null;
+		if (searchResults.size() == 0) {
+			return MSG_NO_SEARCH_MATCH_FOUND;
+		} else {
+			String displayAllSearchResults = "All search results:";
+			for (Task aTask : searchResults) {
+				int listIndex = searchResults.indexOf(aTask) + 1;
+				displayAllSearchResults = displayAllSearchResults + "\n" + listIndex + ". "
+						+ aTask.getDescription();
+			}
+			return displayAllSearchResults;
+		}
 	}
 
 }

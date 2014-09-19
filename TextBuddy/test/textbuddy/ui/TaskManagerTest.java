@@ -160,7 +160,7 @@ public class TaskManagerTest {
 						+ "which contains 'test' in its task description",
 				anotherTestDescription, searchResults.get(1).getDescription());
 
-		expectedSearchResultsToStringOutput = "All search results" + "\n"
+		expectedSearchResultsToStringOutput = "All search results:\n"
 				+ "1. " + testDescription + "\n" + "2. "
 				+ anotherTestDescription;
 		assertTrue(expectedSearchResultsToStringOutput.equals(textBuddy
