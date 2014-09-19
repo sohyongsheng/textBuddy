@@ -4,74 +4,118 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class TaskManagerTest {
-    private TaskManager textBuddy;
-    private String testDescription;
-    private String anotherTestDescription;
-    private Task testTask;
-    private Task anotherTestTask;
+	private TaskManager textBuddy;
+	
+	private String testDescription;
+	private String anotherTestDescription;
+	private String taskDescriptionStartingWithAlphabetZ;
+	private String taskDescriptionStartingWithCapitalAlphabetY;
+	
+	private Task testTask;
+	private Task anotherTestTask;
+	private Task zTask;
+	private Task capitalYTask;
 
-    public void setup() {
-        textBuddy = new TaskManager();
-        testDescription = new String("test description");
-        anotherTestDescription = new String("another test description");
-        testTask = new Task(testDescription);
-        anotherTestTask = new Task(anotherTestDescription);
-    }
+	@Before
+	public void setup() {
+		textBuddy = new TaskManager();
 
-    public void addItems() {
-        textBuddy.addTask(testTask);
-        textBuddy.addTask(anotherTestTask);
-    }
+		testDescription = new String("test description");
+		anotherTestDescription = new String("another test description");
 
-    @Test
-    public void testTaskManager() {
-        TaskManager textBuddy = new TaskManager();
-        assertTrue("Task is not instance of ArrayList",
-                textBuddy.tasks instanceof ArrayList);
-        assertEquals(0, textBuddy.getTasks().size());
-    }
+		testTask = new Task(testDescription);
+		anotherTestTask = new Task(anotherTestDescription);
 
-    @Test
-    public void testRemoveTasks() {
-        setup();
+		taskDescriptionStartingWithAlphabetZ = "z alphabet is at the beginning of this task description";
+		zTask = new Task(taskDescriptionStartingWithAlphabetZ);
 
-        textBuddy.addTask(testTask);
-        assertEquals(1, textBuddy.getTasks().size());
-        assertEquals(0, textBuddy.getTasks().indexOf(testTask));
+		taskDescriptionStartingWithCapitalAlphabetY = "Y capital alphabet is at the beginning of this task description";
+		capitalYTask = new Task(taskDescriptionStartingWithCapitalAlphabetY);
+	}
 
-        textBuddy.addTask(anotherTestTask);
-        assertEquals(2, textBuddy.getTasks().size());
-        assertEquals(0, textBuddy.getTasks().indexOf(testTask));
-        assertEquals(1, textBuddy.getTasks().indexOf(anotherTestTask));
+	@Before
+	public void addItems() {
+		textBuddy.addTask(testTask);
+		textBuddy.addTask(anotherTestTask);
+	}
+	
+	@Before
+	public void addMoreItemsToTestSort() {
+		textBuddy.addTask(zTask);
+		textBuddy.addTask(capitalYTask);
+	}
 
-        int taskUserIndexToRemove = 1;
-        textBuddy.removeTask(taskUserIndexToRemove);
-        assertEquals(1, textBuddy.getTasks().size());
-        assertEquals(0, textBuddy.getTasks().indexOf(anotherTestTask));
-    }
+	@Test
+	public void testTaskManager() {
+		TaskManager textBuddy = new TaskManager();
+		assertTrue("Task is not instance of ArrayList",
+				textBuddy.tasks instanceof ArrayList);
+		assertEquals(0, textBuddy.getTasks().size());
+	}
 
-    @Test
-    public void testRemoveAllTasks() {
-        setup();
-        addItems();
+	@Test
+	public void testRemoveTasks() {
+		setup();
 
-        textBuddy.removeAllTasks();
-        assertEquals(0, textBuddy.getTasks().size());
+		textBuddy.addTask(testTask);
+		assertEquals(1, textBuddy.getTasks().size());
+		assertEquals(0, textBuddy.getTasks().indexOf(testTask));
 
-        String noTasksAtHand = "No tasks at hand.";
-        assertTrue(textBuddy.toString().equals(noTasksAtHand));
-    }
+		textBuddy.addTask(anotherTestTask);
+		assertEquals(2, textBuddy.getTasks().size());
+		assertEquals(0, textBuddy.getTasks().indexOf(testTask));
+		assertEquals(1, textBuddy.getTasks().indexOf(anotherTestTask));
 
-    @Test
-    public void testToString() {
-        setup();
-        addItems();
-        String expectedToStringOutput = "All tasks:" + "\n" + "1. "
-                + testDescription + "\n" + "2. " + anotherTestDescription;
-        assertTrue(expectedToStringOutput.equals(textBuddy.toString()));
-    }
+		int taskUserIndexToRemove = 1;
+		textBuddy.removeTask(taskUserIndexToRemove);
+		assertEquals(1, textBuddy.getTasks().size());
+		assertEquals(0, textBuddy.getTasks().indexOf(anotherTestTask));
+	}
+
+	@Test
+	public void testRemoveAllTasks() {
+		setup();
+		addItems();
+
+		textBuddy.removeAllTasks();
+		assertEquals(0, textBuddy.getTasks().size());
+
+		String noTasksAtHand = "No tasks at hand.";
+		assertTrue(textBuddy.toString().equals(noTasksAtHand));
+	}
+
+	@Test
+	public void testSort() {
+		setup();
+		addItems();
+		addMoreItemsToTestSort();
+		
+		assertEquals("initial number of tasks is not 4", 4, textBuddy.getTasks().size());
+		assertEquals("initial order of tasks are not correct", 1, textBuddy.getTasks().indexOf(anotherTestTask));
+		assertEquals("initial order of tasks are not correct", 0, textBuddy.getTasks().indexOf(testTask));
+		assertEquals("initial order of tasks are not correct", 3, textBuddy.getTasks().indexOf(capitalYTask));
+		assertEquals("initial order of tasks are not correct", 2, textBuddy.getTasks().indexOf(zTask));
+		
+		textBuddy.sort();
+		
+		assertEquals("number of tasks do not remain at 4 after sorting", 4, textBuddy.getTasks().size());
+		assertEquals("order of sorted tasks are not correct", 0, textBuddy.getTasks().indexOf(anotherTestTask));
+		assertEquals("order of sorted tasks are not correct", 1, textBuddy.getTasks().indexOf(testTask));
+		assertEquals("order of sorted tasks are not correct", 2, textBuddy.getTasks().indexOf(capitalYTask));
+		assertEquals("order of sorted tasks are not correct", 3, textBuddy.getTasks().indexOf(zTask));
+	}
+
+	@Test
+	public void testToString() {
+		setup();
+		addItems();
+		String expectedToStringOutput = "All tasks:" + "\n" + "1. "
+				+ testDescription + "\n" + "2. " + anotherTestDescription;
+		assertTrue(expectedToStringOutput.equals(textBuddy.toString()));
+	}
 
 }
