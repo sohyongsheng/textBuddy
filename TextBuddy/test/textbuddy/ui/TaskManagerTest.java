@@ -52,7 +52,7 @@ public class TaskManagerTest {
 	@Test
 	public void testTaskManager() {
 		TaskManager textBuddy = new TaskManager();
-		assertTrue("Task is not instance of ArrayList",
+		assertTrue("tasks is not instance of ArrayList",
 				textBuddy.tasks instanceof ArrayList);
 		assertEquals(0, textBuddy.getTasks().size());
 	}
@@ -123,26 +123,49 @@ public class TaskManagerTest {
 	public void testSearch() {
 		setup();
 		addItems();
+		String searchString;
+		ArrayList<Task> searchResults;
+		String expectedSearchResultsToStringOutput;
 
-		String searchString = "another";
-		ArrayList<Task> searchResults = textBuddy.search(searchString);
-		assertEquals("size of searchResults arraylist is not 1", 1, searchResults.size());
+		searchString = "invalid";
+		assertTrue(
+				"searchResults (declared in TaskManager class) is not instance of ArrayList",
+				textBuddy.search(searchString) instanceof ArrayList);
+		searchResults = textBuddy.search(searchString);
+		assertEquals(
+				"size of searchResults arraylist for 'invalid' search string is not 0",
+				0, searchResults.size());
+		expectedSearchResultsToStringOutput = "No search match found.";
+		assertTrue(expectedSearchResultsToStringOutput.equals(textBuddy
+				.searchResultsToString()));
+
+		searchString = "another";
+		searchResults = textBuddy.search(searchString);
+		assertEquals("size of searchResults arraylist is not 1", 1,
+				searchResults.size());
 		assertEquals(
 				"search string 'another' does not return index of testTask, "
 						+ "which contains 'another' in its task description",
 				anotherTestDescription, searchResults.get(0).getDescription());
-		
+
 		searchString = "test";
 		searchResults = textBuddy.search(searchString);
-		assertEquals("size of searchResults arraylist is not 2", 2, searchResults.size());
-		assertEquals(
-				"search string 'test' does not return index of testTask, "
-						+ "which contains 'test' in its task description",
-						testDescription, searchResults.get(0).getDescription());		
+		assertEquals("size of searchResults arraylist is not 2", 2,
+				searchResults.size());
+		assertEquals("search string 'test' does not return index of testTask, "
+				+ "which contains 'test' in its task description",
+				testDescription, searchResults.get(0).getDescription());
 		assertEquals(
 				"search string 'test' does not return index of anotherTestTask, "
 						+ "which contains 'test' in its task description",
-						anotherTestDescription, searchResults.get(1).getDescription());	
+				anotherTestDescription, searchResults.get(1).getDescription());
+
+		expectedSearchResultsToStringOutput = "All search results" + "\n"
+				+ "1. " + testDescription + "\n" + "2. "
+				+ anotherTestDescription;
+		assertTrue(expectedSearchResultsToStringOutput.equals(textBuddy
+				.searchResultsToString()));
+
 	}
 
 	@Test

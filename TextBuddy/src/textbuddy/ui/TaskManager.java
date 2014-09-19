@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class TaskManager {
+	private static final String MSG_NO_TASKS = "No tasks at hand.";
 	ArrayList<Task> tasks;
-	
+	private ArrayList<Task> searchResults;
+
 	public TaskManager() {
 		tasks = new ArrayList<Task>();
 	}
@@ -29,7 +31,7 @@ public class TaskManager {
 
 	public String toString() {
 		if (tasks.size() == 0) {
-			return "No tasks at hand.";
+			return MSG_NO_TASKS;
 		} else {
 			String displayAllTasks = "All tasks:";
 			for (Task aTask : tasks) {
@@ -50,7 +52,7 @@ public class TaskManager {
 	}
 
 	public ArrayList<Task> search(String searchString) {
-		ArrayList<Task> searchResults = new ArrayList<Task>();
+		searchResults = new ArrayList<Task>();
 		for (Task aTask : this.getTasks()) {
 			if (aTask.getDescription().contains(searchString)) {
 				searchResults.add(aTask);
@@ -58,7 +60,10 @@ public class TaskManager {
 		}
 		return searchResults;
 	}
-	
 
+	public String searchResultsToString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
