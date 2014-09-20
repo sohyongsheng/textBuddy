@@ -3,28 +3,29 @@ package textbuddy.ui;
 import static org.junit.Assert.*;
 
 import java.io.File;
+
 import org.junit.Test;
 
 public class UserInterfaceTest {
 	String logFileName = "log.txt";
 	File testLogFile = new File(logFileName);
-	UserInterface textBuddyUi = new UserInterface(logFileName);
+	UserInterface tbUserInterface = new UserInterface(logFileName);
 
 	@Test
 	public void testUserInterface() {
 		assertTrue("textBuddy is not initialised as instance of TaskManager",
-				textBuddyUi.textBuddy instanceof TaskManager);
+				tbUserInterface.tbTaskManager instanceof TaskManager);
 		assertTrue(
 				"textBuddyLogFileManager is not initialised as instance of LogFileManager",
-				textBuddyUi.textBuddyLogFileManager instanceof LogFileManager);
+				tbUserInterface.tbLogFileManager instanceof LogFileManager);
 		assertTrue(
 				"file in textBuddyLogFileManager is not initialised correctly",
-				textBuddyUi.textBuddyLogFileManager.getLogFile().equals(
+				tbUserInterface.tbLogFileManager.getLogFile().equals(
 						testLogFile));
 	}
 
-	@Test
-	public void testMapCommandToMethod() {
+	@Test(expected = NoSuchMethodException.class)
+	public void testExecuteCommand() throws NoSuchMethodException {
 		String fileName = "testLogFile.txt";
 		String expectedDisplayedOutput;
 
@@ -36,16 +37,16 @@ public class UserInterfaceTest {
 		String statusMessage;
 
 		// test for add
-		statusMessage = textBuddyUi.executeCommand(addCommand, fileName);
+		statusMessage = tbUserInterface.executeCommand(addCommand, fileName);
 		assertTrue(
 				"Status message for first add task is incorrect",
 				statusMessage.equals("Added to " + fileName + ": "
 						+ testDescription));
 		assertEquals("add command did not map to add method", 1,
-				textBuddyUi.textBuddy.getTasks().size());
+				tbUserInterface.tbTaskManager.getTasks().size());
 		assertTrue(
 				"add command did not map task description to newly added task",
-				textBuddyUi.textBuddy.getTasks().get(0).description
+				tbUserInterface.tbTaskManager.getTasks().get(0).description
 						.equals(testDescription));
 
 		// prepare for second add "another test description" command
@@ -55,23 +56,23 @@ public class UserInterfaceTest {
 		Command anotherAddCommand = new Command(anotherAddCommandString);
 
 		// test for second add
-		statusMessage = textBuddyUi.executeCommand(anotherAddCommand, fileName);
+		statusMessage = tbUserInterface.executeCommand(anotherAddCommand, fileName);
 		assertTrue(
 				"Status message for second add task is incorrect",
 				statusMessage.equals("Added to " + fileName + ": "
 						+ anotherTestDescription));
 		assertEquals("second add command did not map to add method", 2,
-				textBuddyUi.textBuddy.getTasks().size());
+				tbUserInterface.tbTaskManager.getTasks().size());
 		assertTrue(
 				"second add command did not map task description to newly added task",
-				textBuddyUi.textBuddy.getTasks().get(1).description
+				tbUserInterface.tbTaskManager.getTasks().get(1).description
 						.equals(anotherTestDescription));
 
 		// test for display
 		String displayAction = "display";
 		Command displayCommand = new Command(displayAction);
 
-		statusMessage = textBuddyUi.executeCommand(displayCommand, fileName);
+		statusMessage = tbUserInterface.executeCommand(displayCommand, fileName);
 		expectedDisplayedOutput = "All tasks:" + "\n" + "1. " + testDescription
 				+ "\n" + "2. " + anotherTestDescription;
 		assertTrue("tasks not displayed correctly",
@@ -84,15 +85,12 @@ public class UserInterfaceTest {
 				+ invalidCommandDescription;
 		Command invalidCommand = new Command(invalidCommandCommandString);
 
-		statusMessage = textBuddyUi.executeCommand(invalidCommand, fileName);
-		assertNull(
-				"Status message for invalid command is incorrect, i.e. not null",
-				statusMessage);
+		statusMessage = tbUserInterface.executeCommand(invalidCommand, fileName);		
 		assertEquals("invalid command changed number of tasks", 2,
-				textBuddyUi.textBuddy.getTasks().size());
-		assertTrue("invalid command changed first task", textBuddyUi.textBuddy
+				tbUserInterface.tbTaskManager.getTasks().size());
+		assertTrue("invalid command changed first task", tbUserInterface.tbTaskManager
 				.getTasks().get(0).description.equals(testDescription));
-		assertTrue("invalid command changed second task", textBuddyUi.textBuddy
+		assertTrue("invalid command changed second task", tbUserInterface.tbTaskManager
 				.getTasks().get(1).description.equals(anotherTestDescription));
 
 		// prepare delete command
@@ -102,39 +100,39 @@ public class UserInterfaceTest {
 		Command deleteCommand = new Command(deleteCommandString);
 
 		// test for delete
-		statusMessage = textBuddyUi.executeCommand(deleteCommand, fileName);
+		statusMessage = tbUserInterface.executeCommand(deleteCommand, fileName);
 		assertTrue(
 				"Status message for delete command is incorrect",
 				statusMessage.equals("Deleted from " + fileName + ": "
 						+ testDescription));
-		assertEquals("first task was not deleted", 1, textBuddyUi.textBuddy
+		assertEquals("first task was not deleted", 1, tbUserInterface.tbTaskManager
 				.getTasks().size());
 		assertTrue("index of originally second task was not shifted up to one",
-				textBuddyUi.textBuddy.getTasks().get(0).description
+				tbUserInterface.tbTaskManager.getTasks().get(0).description
 						.equals(anotherTestDescription));
 
 		// add back deleted task
-		textBuddyUi.executeCommand(addCommand, fileName);
+		tbUserInterface.executeCommand(addCommand, fileName);
 		String clearAction = "clear";
 		Command clearCommand = new Command(clearAction);
 
 		// test for clear
-		statusMessage = textBuddyUi.executeCommand(clearCommand, fileName);
+		statusMessage = tbUserInterface.executeCommand(clearCommand, fileName);
 		assertTrue("Status message for clear command is incorrect",
 				statusMessage.equals("All content cleared from " + fileName));
-		assertEquals("tasks were not cleared", 0, textBuddyUi.textBuddy
+		assertEquals("tasks were not cleared", 0, tbUserInterface.tbTaskManager
 				.getTasks().size());
 
 		// add "test description", followed by add "another test description"
-		textBuddyUi.executeCommand(addCommand, fileName);
-		textBuddyUi.executeCommand(anotherAddCommand, fileName);
+		tbUserInterface.executeCommand(addCommand, fileName);
+		tbUserInterface.executeCommand(anotherAddCommand, fileName);
 
 		// prepare sort command
 		String sortAction = "sort";
 		Command sortCommand = new Command(sortAction);
 
 		// test for sort
-		statusMessage = textBuddyUi.executeCommand(sortCommand, fileName);
+		statusMessage = tbUserInterface.executeCommand(sortCommand, fileName);
 		expectedDisplayedOutput = "2 tasks sorted:\n" + "All tasks:\n" + "1. "
 				+ anotherTestDescription + "\n" + "2. " + testDescription;
 		assertTrue(statusMessage.equals(expectedDisplayedOutput));
@@ -142,7 +140,7 @@ public class UserInterfaceTest {
 		// prepare search "another" command
 		String searchCommandString = "search another";
 		Command searchCommand = new Command(searchCommandString);
-		statusMessage = textBuddyUi.executeCommand(searchCommand, fileName);
+		statusMessage = tbUserInterface.executeCommand(searchCommand, fileName);
 
 		// test for search "another"
 		expectedDisplayedOutput = "1 search match(es) found:\n"
@@ -153,7 +151,7 @@ public class UserInterfaceTest {
 		// prepare search "description" command
 		searchCommandString = "search st description";
 		searchCommand = new Command(searchCommandString);
-		statusMessage = textBuddyUi.executeCommand(searchCommand, fileName);
+		statusMessage = tbUserInterface.executeCommand(searchCommand, fileName);
 
 		// test for search "st description"
 		expectedDisplayedOutput = "2 search match(es) found:\n"
@@ -168,20 +166,20 @@ public class UserInterfaceTest {
 		Command exitCommand = new Command(exitAction);
 
 		// test for exit
-		statusMessage = textBuddyUi.executeCommand(exitCommand, fileName);
+		statusMessage = tbUserInterface.executeCommand(exitCommand, fileName);
 		assertTrue(statusMessage.equals("Exiting TextBuddy."));
 	}
 
 	@Test
-	public void testDecideWhetherToExit() {
+	public void testIsExit() {
 		Command notExitCommand = new Command(
 				"invalidCommandAction invalidCommandParameter");
 		assertFalse("program exited without correct exit command",
-				textBuddyUi.decideWhetherToExit(notExitCommand));
+				tbUserInterface.isExit(notExitCommand));
 
 		Command exitCommand = new Command("exit");
 		assertTrue("program did not exit even with correct exit command",
-				textBuddyUi.decideWhetherToExit(exitCommand));
+				tbUserInterface.isExit(exitCommand));
 	}
 
 }
