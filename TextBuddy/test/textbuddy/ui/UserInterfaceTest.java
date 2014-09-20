@@ -118,6 +118,8 @@ public class UserInterfaceTest {
 		// add "test description", followed by add "another test description"
 		textBuddyUi.executeCommand(addCommand, fileName);
 		textBuddyUi.executeCommand(anotherAddCommand, fileName);
+
+		// prepare sort command
 		String sortAction = "sort";
 		Command sortCommand = new Command(sortAction);
 
@@ -126,6 +128,28 @@ public class UserInterfaceTest {
 		expectedDisplayedOutput = "2 tasks sorted:\n" + "All tasks:\n" + "1. "
 				+ anotherTestDescription + "\n" + "2. " + testDescription;
 		assertTrue(statusMessage.equals(expectedDisplayedOutput));
+
+		// prepare search "another" command
+		String searchCommandString = "search another";
+		Command searchCommand = new Command(searchCommandString);
+		statusMessage = textBuddyUi.executeCommand(searchCommand, fileName);
+
+		// test for search "another"
+		expectedDisplayedOutput = "All search results:\n" + "1. "
+				+ anotherTestDescription;
+		assertTrue("search 'another' results are not displayed correctly",
+				statusMessage.equals(expectedDisplayedOutput));
+
+		// prepare search "description" command
+		searchCommandString = "search description";
+		searchCommand = new Command(searchCommandString);
+		statusMessage = textBuddyUi.executeCommand(searchCommand, fileName);
+
+		// test for search "description"
+		expectedDisplayedOutput = "2 tasks sorted:\n" + "All tasks:\n" + "1. "
+				+ anotherTestDescription + "\n" + "2. " + testDescription;
+		assertTrue("search 'description' results are not displayed correctly",
+				statusMessage.equals(expectedDisplayedOutput));
 
 		// prepare exit command
 		String exitAction = "exit";
