@@ -141,15 +141,15 @@ public class UserInterfaceTest {
 				statusMessage.equals(expectedDisplayedOutput));
 
 		// prepare search "description" command
-		searchCommandString = "search description";
+		searchCommandString = "search st description";
 		searchCommand = new Command(searchCommandString);
 		statusMessage = textBuddyUi.executeCommand(searchCommand, fileName);
 
-		// test for search "description"
+		// test for search "st description"
 		expectedDisplayedOutput = "2 search match(es) found:\n"
 				+ "All search results:\n" + "1. " + anotherTestDescription
 				+ "\n" + "2. " + testDescription;
-		assertTrue("search 'description' results are not displayed correctly",
+		assertTrue("search 'st description' results are not displayed correctly",
 				statusMessage.equals(expectedDisplayedOutput));
 
 		// prepare exit command
