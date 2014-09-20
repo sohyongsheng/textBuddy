@@ -6,6 +6,7 @@ import org.junit.Test;
 
 public class UserInterfaceTest {
 	UserInterface textBuddyUi = new UserInterface();
+	
 
 	@Test
 	public void testUserInterface() {
@@ -15,8 +16,8 @@ public class UserInterfaceTest {
 
 	@Test
 	public void testMapCommandToMethod() {
-		// not testing for display and exit as they require system interaction
 		String fileName = "testLogFile.txt";
+		String expectedDisplayedOutput;
 
 		// test for add
 		String addAction = "add";
@@ -37,7 +38,7 @@ public class UserInterfaceTest {
 				textBuddyUi.textBuddy.getTasks().get(0).description
 						.equals(testDescription));
 
-		// add a second task for testing of deletion later
+		// add a second task
 		String anotherTestDescription = "another test description";
 		String anotherAddCommandString = addAction + " "
 				+ anotherTestDescription;
@@ -55,6 +56,16 @@ public class UserInterfaceTest {
 				"second add command did not map task description to newly added task",
 				textBuddyUi.textBuddy.getTasks().get(1).description
 						.equals(anotherTestDescription));
+		
+		// test for display
+		String displayAction = "display";
+		Command displayCommand = new Command(displayAction);
+
+		statusMessage = textBuddyUi.executeCommand(displayCommand,
+				fileName);
+		expectedDisplayedOutput = "All tasks:" + "\n" + "1. "
+				+ testDescription + "\n" + "2. " + anotherTestDescription;
+		assertTrue("tasks not displayed correctly", expectedDisplayedOutput.equals(statusMessage));
 
 		// test for invalid command
 		String invalidCommandAction = "invalidCommand";
@@ -103,10 +114,24 @@ public class UserInterfaceTest {
 		assertEquals("tasks were not cleared", 0, textBuddyUi.textBuddy
 				.getTasks().size());
 		
-		// test for exit command
+		// add "test description", followed by add "another test description"
+		textBuddyUi.executeCommand(addCommand, fileName);
+		textBuddyUi.executeCommand(anotherAddCommand,
+				fileName);
+		String sortAction = "sort";
+		Command sortCommand = new Command(sortAction);
+
+		// test for sort
+		statusMessage = textBuddyUi.executeCommand(sortCommand, fileName);
+		expectedDisplayedOutput = "All tasks:" + "\n" + "1. "
+				+ anotherTestDescription + "\n" + "2. " + testDescription;
+		assertTrue(statusMessage.equals(expectedDisplayedOutput));
+		
+		// prepare exit command
 		String exitAction = "exit";
         Command exitCommand = new Command(exitAction);
 
+        // test for exit
         statusMessage = textBuddyUi.executeCommand(exitCommand, fileName);
         assertTrue(statusMessage.equals("Exiting TextBuddy."));
 	}

@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class TaskManagerTest {
@@ -20,7 +19,6 @@ public class TaskManagerTest {
 	private Task zTask;
 	private Task capitalYTask;
 
-	@Before
 	public void setup() {
 		textBuddy = new TaskManager();
 
@@ -37,13 +35,11 @@ public class TaskManagerTest {
 		capitalYTask = new Task(taskDescriptionStartingWithCapitalAlphabetY);
 	}
 
-	@Before
 	public void addItems() {
 		textBuddy.addTask(testTask);
 		textBuddy.addTask(anotherTestTask);
 	}
 
-	@Before
 	public void addMoreItemsToTestSort() {
 		textBuddy.addTask(zTask);
 		textBuddy.addTask(capitalYTask);
@@ -174,7 +170,7 @@ public class TaskManagerTest {
 		addItems();
 		String expectedToStringOutput = "All tasks:" + "\n" + "1. "
 				+ testDescription + "\n" + "2. " + anotherTestDescription;
-		assertTrue(expectedToStringOutput.equals(textBuddy.toString()));
+		assertTrue("tasks not displayed correctly", expectedToStringOutput.equals(textBuddy.toString()));
 	}
 
 }

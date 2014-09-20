@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class TaskManager {
+	private static final int DIFFERENCE_BETWEEN_LIST_INDEX_AND_ARRAY_LIST_INDEX = 1;
+	private static final String MSG_PROMPT = "command: ";
+	private static final String MSG_SEARCH_RESULTS_HEADER = "All search results:";
 	private static final String MSG_NO_SEARCH_MATCH_FOUND = "No search match found.";
 	private static final String MSG_NO_TASKS = "No tasks at hand.";
+
 	ArrayList<Task> tasks;
 	private ArrayList<Task> searchResults;
 
@@ -45,7 +49,7 @@ public class TaskManager {
 	}
 
 	public void prompt() {
-		System.out.print("command: ");
+		System.out.print(MSG_PROMPT);
 	}
 
 	public void sort() {
@@ -66,11 +70,11 @@ public class TaskManager {
 		if (searchResults.size() == 0) {
 			return MSG_NO_SEARCH_MATCH_FOUND;
 		} else {
-			String displayAllSearchResults = "All search results:";
+			String displayAllSearchResults = MSG_SEARCH_RESULTS_HEADER;
 			for (Task aTask : searchResults) {
-				int listIndex = searchResults.indexOf(aTask) + 1;
-				displayAllSearchResults = displayAllSearchResults + "\n" + listIndex + ". "
-						+ aTask.getDescription();
+				int listIndex = searchResults.indexOf(aTask) + DIFFERENCE_BETWEEN_LIST_INDEX_AND_ARRAY_LIST_INDEX;
+				displayAllSearchResults = displayAllSearchResults + "\n"
+						+ listIndex + ". " + aTask.getDescription();
 			}
 			return displayAllSearchResults;
 		}
