@@ -6,7 +6,6 @@ import org.junit.Test;
 
 public class UserInterfaceTest {
 	UserInterface textBuddyUi = new UserInterface();
-	
 
 	@Test
 	public void testUserInterface() {
@@ -19,13 +18,14 @@ public class UserInterfaceTest {
 		String fileName = "testLogFile.txt";
 		String expectedDisplayedOutput;
 
-		// test for add
+		// prepare add "test description" command
 		String addAction = "add";
 		String testDescription = "test description";
 		String addCommandString = addAction + " " + testDescription;
 		Command addCommand = new Command(addCommandString);
 		String statusMessage;
 
+		// test for add
 		statusMessage = textBuddyUi.executeCommand(addCommand, fileName);
 		assertTrue(
 				"Status message for first add task is incorrect",
@@ -38,14 +38,14 @@ public class UserInterfaceTest {
 				textBuddyUi.textBuddy.getTasks().get(0).description
 						.equals(testDescription));
 
-		// add a second task
+		// prepare for second add "another test description" command
 		String anotherTestDescription = "another test description";
 		String anotherAddCommandString = addAction + " "
 				+ anotherTestDescription;
 		Command anotherAddCommand = new Command(anotherAddCommandString);
 
-		statusMessage = textBuddyUi.executeCommand(anotherAddCommand,
-				fileName);
+		// test for second add
+		statusMessage = textBuddyUi.executeCommand(anotherAddCommand, fileName);
 		assertTrue(
 				"Status message for second add task is incorrect",
 				statusMessage.equals("Added to " + fileName + ": "
@@ -56,16 +56,16 @@ public class UserInterfaceTest {
 				"second add command did not map task description to newly added task",
 				textBuddyUi.textBuddy.getTasks().get(1).description
 						.equals(anotherTestDescription));
-		
+
 		// test for display
 		String displayAction = "display";
 		Command displayCommand = new Command(displayAction);
 
-		statusMessage = textBuddyUi.executeCommand(displayCommand,
-				fileName);
-		expectedDisplayedOutput = "All tasks:" + "\n" + "1. "
-				+ testDescription + "\n" + "2. " + anotherTestDescription;
-		assertTrue("tasks not displayed correctly", expectedDisplayedOutput.equals(statusMessage));
+		statusMessage = textBuddyUi.executeCommand(displayCommand, fileName);
+		expectedDisplayedOutput = "All tasks:" + "\n" + "1. " + testDescription
+				+ "\n" + "2. " + anotherTestDescription;
+		assertTrue("tasks not displayed correctly",
+				expectedDisplayedOutput.equals(statusMessage));
 
 		// test for invalid command
 		String invalidCommandAction = "invalidCommand";
@@ -74,8 +74,7 @@ public class UserInterfaceTest {
 				+ invalidCommandDescription;
 		Command invalidCommand = new Command(invalidCommandCommandString);
 
-		statusMessage = textBuddyUi
-				.executeCommand(invalidCommand, fileName);
+		statusMessage = textBuddyUi.executeCommand(invalidCommand, fileName);
 		assertNull(
 				"Status message for invalid command is incorrect, i.e. not null",
 				statusMessage);
@@ -86,12 +85,13 @@ public class UserInterfaceTest {
 		assertTrue("invalid command changed second task", textBuddyUi.textBuddy
 				.getTasks().get(1).description.equals(anotherTestDescription));
 
-		// test for delete
+		// prepare delete command
 		String deleteAction = "delete";
 		String deletionIndex = "1";
 		String deleteCommandString = deleteAction + " " + deletionIndex;
 		Command deleteCommand = new Command(deleteCommandString);
 
+		// test for delete
 		statusMessage = textBuddyUi.executeCommand(deleteCommand, fileName);
 		assertTrue(
 				"Status message for delete command is incorrect",
@@ -103,46 +103,49 @@ public class UserInterfaceTest {
 				textBuddyUi.textBuddy.getTasks().get(0).description
 						.equals(anotherTestDescription));
 
-		// add back deleted task and test for clear
+		// add back deleted task
 		textBuddyUi.executeCommand(addCommand, fileName);
 		String clearAction = "clear";
 		Command clearCommand = new Command(clearAction);
 
+		// test for clear
 		statusMessage = textBuddyUi.executeCommand(clearCommand, fileName);
 		assertTrue("Status message for clear command is incorrect",
 				statusMessage.equals("All content cleared from " + fileName));
 		assertEquals("tasks were not cleared", 0, textBuddyUi.textBuddy
 				.getTasks().size());
-		
+
 		// add "test description", followed by add "another test description"
 		textBuddyUi.executeCommand(addCommand, fileName);
-		textBuddyUi.executeCommand(anotherAddCommand,
-				fileName);
+		textBuddyUi.executeCommand(anotherAddCommand, fileName);
 		String sortAction = "sort";
 		Command sortCommand = new Command(sortAction);
 
 		// test for sort
 		statusMessage = textBuddyUi.executeCommand(sortCommand, fileName);
-		expectedDisplayedOutput = "All tasks:" + "\n" + "1. "
+		expectedDisplayedOutput = "2 tasks sorted:\n" + "All tasks:\n" + "1. "
 				+ anotherTestDescription + "\n" + "2. " + testDescription;
 		assertTrue(statusMessage.equals(expectedDisplayedOutput));
-		
+
 		// prepare exit command
 		String exitAction = "exit";
-        Command exitCommand = new Command(exitAction);
+		Command exitCommand = new Command(exitAction);
 
-        // test for exit
-        statusMessage = textBuddyUi.executeCommand(exitCommand, fileName);
-        assertTrue(statusMessage.equals("Exiting TextBuddy."));
+		// test for exit
+		statusMessage = textBuddyUi.executeCommand(exitCommand, fileName);
+		assertTrue(statusMessage.equals("Exiting TextBuddy."));
 	}
-	
+
 	@Test
 	public void testDecideWhetherToExit() {
-	    Command notExitCommand = new Command("invalidCommandAction invalidCommandParameter");
-	    assertFalse("program exited without correct exit command", textBuddyUi.decideWhetherToExit(notExitCommand));
-	    
-	    Command exitCommand = new Command("exit");
-	    assertTrue("program did not exit even with correct exit command", textBuddyUi.decideWhetherToExit(exitCommand));	    
+		Command notExitCommand = new Command(
+				"invalidCommandAction invalidCommandParameter");
+		assertFalse("program exited without correct exit command",
+				textBuddyUi.decideWhetherToExit(notExitCommand));
+
+		Command exitCommand = new Command("exit");
+		assertTrue("program did not exit even with correct exit command",
+				textBuddyUi.decideWhetherToExit(exitCommand));
 	}
 
 }
