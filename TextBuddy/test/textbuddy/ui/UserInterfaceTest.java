@@ -135,8 +135,8 @@ public class UserInterfaceTest {
 		statusMessage = textBuddyUi.executeCommand(searchCommand, fileName);
 
 		// test for search "another"
-		expectedDisplayedOutput = "All search results:\n" + "1. "
-				+ anotherTestDescription;
+		expectedDisplayedOutput = "1 search match(es) found:\n"
+				+ "All search results:\n" + "1. " + anotherTestDescription;
 		assertTrue("search 'another' results are not displayed correctly",
 				statusMessage.equals(expectedDisplayedOutput));
 
@@ -146,8 +146,9 @@ public class UserInterfaceTest {
 		statusMessage = textBuddyUi.executeCommand(searchCommand, fileName);
 
 		// test for search "description"
-		expectedDisplayedOutput = "2 tasks sorted:\n" + "All tasks:\n" + "1. "
-				+ anotherTestDescription + "\n" + "2. " + testDescription;
+		expectedDisplayedOutput = "2 search match(es) found:\n"
+				+ "All search results:\n" + "1. " + anotherTestDescription
+				+ "\n" + "2. " + testDescription;
 		assertTrue("search 'description' results are not displayed correctly",
 				statusMessage.equals(expectedDisplayedOutput));
 

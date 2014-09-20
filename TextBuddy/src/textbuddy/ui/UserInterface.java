@@ -3,6 +3,8 @@ package textbuddy.ui;
 import java.util.Scanner;
 
 public class UserInterface {
+	private static final String MSG_SEARCH_MATCHES = " search match(es) found:\n";
+	private static final String CMD_SEARCH = "search";
 	private static final String MSG_SORTED = " tasks sorted:\n";
 	private static final String MSG_ALL_CLEARED = "All content cleared from ";
 	private static final String MSG_EXIT = "Exiting TextBuddy.";
@@ -48,8 +50,14 @@ public class UserInterface {
 			int deletionIndex = Integer.parseUnsignedInt(deletionIndexString);
 			String deletedTaskDescription = textBuddy.getTasks()
 					.get(deletionIndex - 1).getDescription();
-			textBuddy.removeTask(deletionIndex);
+			this.textBuddy.removeTask(deletionIndex);
 			return "Deleted from " + fileName + ": " + deletedTaskDescription;
+			
+		case CMD_SEARCH:
+			String searchString = inputCommand.getCommandParameter();
+			int numberOfSearchMatches = this.textBuddy.search(searchString).size();
+			String searchResults = this.textBuddy.searchResultsToString();
+			return numberOfSearchMatches + MSG_SEARCH_MATCHES + searchResults;
 
 			// for all other unrecognised commands
 		default:
