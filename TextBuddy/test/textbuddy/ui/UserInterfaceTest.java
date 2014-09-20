@@ -2,15 +2,25 @@ package textbuddy.ui;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import org.junit.Test;
 
 public class UserInterfaceTest {
-	UserInterface textBuddyUi = new UserInterface();
+	String logFileName = "log.txt";
+	File testLogFile = new File(logFileName);
+	UserInterface textBuddyUi = new UserInterface(logFileName);
 
 	@Test
 	public void testUserInterface() {
 		assertTrue("textBuddy is not initialised as instance of TaskManager",
 				textBuddyUi.textBuddy instanceof TaskManager);
+		assertTrue(
+				"textBuddyLogFileManager is not initialised as instance of LogFileManager",
+				textBuddyUi.textBuddyLogFileManager instanceof LogFileManager);
+		assertTrue(
+				"file in textBuddyLogFileManager is not initialised correctly",
+				textBuddyUi.textBuddyLogFileManager.getLogFile().equals(
+						testLogFile));
 	}
 
 	@Test
@@ -149,7 +159,8 @@ public class UserInterfaceTest {
 		expectedDisplayedOutput = "2 search match(es) found:\n"
 				+ "All search results:\n" + "1. " + anotherTestDescription
 				+ "\n" + "2. " + testDescription;
-		assertTrue("search 'st description' results are not displayed correctly",
+		assertTrue(
+				"search 'st description' results are not displayed correctly",
 				statusMessage.equals(expectedDisplayedOutput));
 
 		// prepare exit command

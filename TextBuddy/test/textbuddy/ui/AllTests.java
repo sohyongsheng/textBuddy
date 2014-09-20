@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ CommandTest.class, TaskManagerTest.class, TaskTest.class,
-        UserInterfaceTest.class })
+        UserInterfaceTest.class, LogFileManagerTest.class })
 public class AllTests {
 
 }

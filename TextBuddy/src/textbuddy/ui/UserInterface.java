@@ -1,5 +1,6 @@
 package textbuddy.ui;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -15,12 +16,15 @@ public class UserInterface {
 	private static final String CMD_DISPLAY = "display";
 	private static final String CMD_EXIT = "exit";
 	TaskManager textBuddy;
+	LogFileManager textBuddyLogFileManager;
 
-	public UserInterface() {
+	public UserInterface(String logFileName) {
 		textBuddy = new TaskManager();
+		textBuddyLogFileManager = new LogFileManager(logFileName);
 	}
 
 	public String executeCommand(Command inputCommand, String fileName) {
+		
 		switch (inputCommand.getCommandAction()) {
 		// commands with no parameter
 		case CMD_EXIT:
@@ -84,11 +88,14 @@ public class UserInterface {
 			return false;
 		}
 	}
-
-	public static void main(String[] args) {
+	
+	public static void main(String[] args) throws IOException {
 		String logFileName = args[0];
-		UserInterface textBuddyUi = new UserInterface();
+		UserInterface textBuddyUi = new UserInterface(logFileName);
 		textBuddyUi.showToUser("Welcome to TextBuddy.");
+		
+		String prepareLogFile = textBuddyUi.textBuddyLogFileManager.prepareLogFile(textBuddyUi.textBuddy);
+		textBuddyUi.showToUser(prepareLogFile);
 
 		Scanner userInput = new Scanner(System.in);
 		boolean isExit = false;
@@ -99,6 +106,9 @@ public class UserInterface {
 					logFileName);
 			textBuddyUi.showToUser(statusMessage);
 			isExit = textBuddyUi.decideWhetherToExit(inputCommand);
+			
+			String tasks = textBuddyUi.textBuddy.toString();
+			textBuddyUi.textBuddyLogFileManager.writeToLogFile(tasks);
 		}
 		userInput.close();
 
